@@ -1,1 +1,187 @@
+1>>Model.deleteMany()
+*****************************************
+The Model.deleteMany() method in Mongoose is used to delete multiple documents from a collection based on a specified query.
+It's a powerful way to remove unwanted data in bulk.
 
+import mongoose from 'mongoose';
+
+// Define your model interface
+interface MyModel {
+  name: string;
+  age: number;
+  // ... other properties
+}
+
+// Create your Mongoose model
+const MyModel = mongoose.model<MyModel>('MyModel', new mongoose.Schema({
+  name: String,
+  age: Number,
+  // ... schema definitions
+}));
+
+// Example 1: Delete all documents (not recommended!)
+await MyModel.deleteMany({});
+
+// Example 2: Delete documents with age greater than 30
+await MyModel.deleteMany({ age: { $gt: 30 } });
+
+// Example 3: Delete documents with specific name and age (using generics)
+type DeleteCriteria = Partial<MyModel>; // Define type for partial model properties
+const deleteResult = await MyModel.deleteMany<MyModel>({
+  name: "Alice",
+  age: 25,
+});
+
+2>>Model.deleteOne()
+*****************************************
+The Model.deleteOne() method in Mongoose is used to delete a single document from a collection that matches a specific query criteria.
+It's ideal for targeted deletion of individual documents.
+
+import mongoose from 'mongoose';
+
+// Define your model interface
+interface MyModel {
+  name: string;
+  age: number;
+  // ... other properties
+}
+
+// Create your Mongoose model
+const MyModel = mongoose.model<MyModel>('MyModel', new mongoose.Schema({
+  name: String,
+  age: Number,
+  // ... schema definitions
+}));
+
+// Example 1: Delete the first document with name "Alice"
+await MyModel.deleteOne({ name: "Alice" });
+
+// Example 2: Delete a document with a specific _id (using generics)
+const deleteResult = await MyModel.deleteOne<MyModel>({ _id: mongoose.Types.ObjectId("your_object_id") });
+
+3>>Model.find()
+*****************************************
+The Model.find() method in Mongoose is used to retrieve multiple documents from a collection based on a 
+specified query criteria. It's a versatile tool for fetching and filtering data from your MongoDB database.
+
+import mongoose from 'mongoose';
+
+// Define your model interface
+interface MyModel {
+  name: string;
+  age: number;
+  // ... other properties
+}
+
+// Create your Mongoose model
+const MyModel = mongoose.model<MyModel>('MyModel', new mongoose.Schema({
+  name: String,
+  age: Number,
+  // ... schema definitions
+}));
+
+// Example 1: Find all documents (not recommended for large collections)
+const allDocuments = await MyModel.find({});
+
+// Example 2: Find documents with name "Alice"
+const aliceDocuments = await MyModel.find({ name: "Alice" });
+
+// Example 3: Find documents with age greater than 30 (using comparison operators)
+const gt30Documents = await MyModel.find({ age: { $gt: 30 } });
+
+// Example 4: Find documents with specific name and age (using generics)
+type FindCriteria = Partial<MyModel>; // Define type for partial model properties
+const specificDocuments = await MyModel.find<MyModel>({
+  name: "Bob",
+  age: 25,
+});
+
+// Example 5: Find documents with specific _id (using generics)
+const specificIdDocument = await MyModel.findById<MyModel>(mongoose.Types.ObjectId("your_object_id"));
+
+// Example 6: Find documents with specific fields (using projection)
+const specificFields = await MyModel.find({}, { name: 1, age: 1 }); // Include only name and age
+
+
+4>>Model.findById()
+*****************************************
+
+The Model.findById() method in Mongoose is used to retrieve a single document from a collection based
+on its unique _id field. It's a convenient way to find a specific document by its identifier.
+
+import mongoose from 'mongoose';
+
+// Define your model interface
+interface MyModel {
+  name: string;
+  age: number;
+  // ... other properties
+}
+
+// Create your Mongoose model
+const MyModel = mongoose.model<MyModel>('MyModel', new mongoose.Schema({
+  name: String,
+  age: Number,
+  // ... schema definitions
+}));
+
+// Example 1: Find a document by its _id
+const document = await MyModel.findById(mongoose.Types.ObjectId("your_object_id"));
+
+// Example 2: Find a document by its _id (using generics)
+const typedDocument = await MyModel.findById<MyModel>(mongoose.Types.ObjectId("your_object_id"));
+
+// Example 3: Find a document by its _id with projection (using generics)
+const specificFields = await MyModel.findById<MyModel>(mongoose.Types.ObjectId("your_object_id"), { name: 1, age: 1 }); // Include only name and age
+
+5>>Model.findByIdAndDelete()
+*****************************************
+
+The Model.findByIdAndDelete() method in Mongoose provides a convenient way to achieve two actions in one step:
+
+>>Find a document: It searches for a single document based on its unique _id field.
+>>Delete the document: If a document matching the _id is found, it deletes that document from the collection.
+
+import mongoose from 'mongoose';
+
+// Define your model interface
+interface MyModel {
+  name: string;
+  age: number;
+  // ... other properties
+}
+
+// Create your Mongoose model
+const MyModel = mongoose.model<MyModel>('MyModel', new mongoose.Schema({
+  name: String,
+  age: Number,
+  // ... schema definitions
+}));
+
+// Example 1: Find and delete a document by its _id
+const deletedDocument = await MyModel.findByIdAndDelete(mongoose.Types.ObjectId("your_object_id"));
+
+// Example 2: Find and delete a document by its _id (using generics)
+const typedDeletedDocument = await MyModel.findByIdAndDelete<MyModel>(mongoose.Types.ObjectId("your_object_id"));
+
+6>>Model.findByIdAndRemove()
+*****************************************
+
+
+
+7>>Model.findByIdAndUpdate()
+*****************************************
+8>>Model.findOne()
+*****************************************
+9>>Model.findOneAndDelete()
+*****************************************
+10>>Model.findOneAndReplace()
+*****************************************
+11>>Model.findOneAndUpdate()
+*****************************************
+12>>Model.replaceOne()
+*****************************************
+13>>Model.updateMany()
+*****************************************
+14>>Model.updateOne()
+*****************************************
